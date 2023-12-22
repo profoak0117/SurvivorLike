@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://diti46gqdvk1w"]
+
+[ext_resource type="Texture2D" uid="uid://cua2f58rqp3ln" path="res://sprites/objects/bullet_01.png" id="1_6sdho"]
+[ext_resource type="Script" path="res://scenes/bullet.gd" id="1_slt65"]
+[ext_resource type="PackedScene" uid="uid://b0b4gbccvg402" path="res://components/attack.tscn" id="3_5ljnk"]
+[ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="4_e2n7g"]
+
+[sub_resource type="Gradient" id="Gradient_fphxp"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ot84g"]
+gradient = SubResource("Gradient_fphxp")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.6, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xwadw"]
+radius = 7.0
+
+[node name="Bullet" type="Node2D"]
+script = ExtResource("1_slt65")
+speed = 300
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_6sdho")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(4.76837e-07, -4.76837e-07)
+scale = Vector2(0.216675, 0.216675)
+color = Color(0.854902, 0.556863, 0.286275, 1)
+texture = SubResource("GradientTexture2D_ot84g")
+
+[node name="KillTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="Attack" parent="." instance=ExtResource("3_5ljnk")]
+
+[node name="Hitbox" parent="." instance=ExtResource("4_e2n7g")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_xwadw")
+
+[connection signal="timeout" from="KillTimer" to="." method="_on_kill_timer_timeout"]

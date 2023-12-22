@@ -1,16 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://e4eq54a06g8n"]
+[gd_scene load_steps=4 format=3 uid="uid://e4eq54a06g8n"]
 
 [ext_resource type="SpriteFrames" uid="uid://dka3j35xxe6l0" path="res://scenes/player_sprite_frames.tres" id="1_7qrvm"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_irgai"]
-[ext_resource type="PackedScene" uid="uid://b2bbqsupkofay" path="res://components/health.tscn" id="3_ffxk2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hl44x"]
 radius = 7.0
 height = 22.0
 
-[node name="Player" type="CharacterBody2D" groups=["Player"]]
-collision_mask = 31
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_irgai")
+speed = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_hl44x")
@@ -19,14 +18,7 @@ shape = SubResource("CapsuleShape2D_hl44x")
 position = Vector2(0, -8)
 sprite_frames = ExtResource("1_7qrvm")
 animation = &"idle"
-frame_progress = 0.444506
+frame_progress = 0.0289166
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
-
-[node name="Health" parent="." instance=ExtResource("3_ffxk2")]
-
-[node name="AttackTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

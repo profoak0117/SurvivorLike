@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://di3e157si0aml"]
+
+[ext_resource type="Texture2D" uid="uid://dcpbk3aw63wwd" path="res://sprites/characters/slime.png" id="1_58gdh"]
+[ext_resource type="PackedScene" uid="uid://b2bbqsupkofay" path="res://components/health.tscn" id="2_gf5id"]
+[ext_resource type="PackedScene" uid="uid://b0b4gbccvg402" path="res://components/attack.tscn" id="3_03npj"]
+[ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="4_p8lk1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5uxlw"]
+atlas = ExtResource("1_58gdh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqp2k"]
+atlas = ExtResource("1_58gdh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rn44"]
+atlas = ExtResource("1_58gdh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m73hr"]
+atlas = ExtResource("1_58gdh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q41w4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5uxlw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqp2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rn44")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m73hr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xjfgb"]
+radius = 7.0
+height = 14.0
+
+[node name="Enemy" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_q41w4")
+frame_progress = 0.167231
+
+[node name="Health" parent="." instance=ExtResource("2_gf5id")]
+
+[node name="Attack" parent="." instance=ExtResource("3_03npj")]
+
+[node name="Hitbox" parent="." instance=ExtResource("4_p8lk1")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CapsuleShape2D_xjfgb")

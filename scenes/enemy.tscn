@@ -1,9 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://di3e157si0aml"]
+[gd_scene load_steps=14 format=3 uid="uid://di3e157si0aml"]
 
+[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_4evl0"]
 [ext_resource type="Texture2D" uid="uid://dcpbk3aw63wwd" path="res://sprites/characters/slime.png" id="1_58gdh"]
+[ext_resource type="Shader" path="res://scenes/hitflash.gdshader" id="2_c13gf"]
 [ext_resource type="PackedScene" uid="uid://b2bbqsupkofay" path="res://components/health.tscn" id="2_gf5id"]
 [ext_resource type="PackedScene" uid="uid://b0b4gbccvg402" path="res://components/attack.tscn" id="3_03npj"]
 [ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="4_p8lk1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2j0d0"]
+resource_local_to_scene = true
+shader = ExtResource("2_c13gf")
+shader_parameter/active = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5uxlw"]
 atlas = ExtResource("1_58gdh")
@@ -46,13 +53,16 @@ radius = 7.0
 height = 14.0
 
 [node name="Enemy" type="Node2D"]
+script = ExtResource("1_4evl0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_2j0d0")
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_q41w4")
 frame_progress = 0.167231
 
 [node name="Health" parent="." instance=ExtResource("2_gf5id")]
+MAX_HEALTH = 3
 
 [node name="Attack" parent="." instance=ExtResource("3_03npj")]
 
@@ -60,3 +70,13 @@ frame_progress = 0.167231
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_xjfgb")
+
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.05
+
+[node name="FlashLengthTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="timeout" from="FlashTimer" to="." method="_on_flash_timer_timeout"]
+[connection signal="timeout" from="FlashLengthTimer" to="." method="_on_flash_length_timer_timeout"]

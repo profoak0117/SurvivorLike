@@ -12,3 +12,6 @@ func _ready():
 func _process(delta):
 	pass
 
+func hit(attack: Attack):
+	HitSignal.emit(attack)
+	print("hitbox hit by attack")

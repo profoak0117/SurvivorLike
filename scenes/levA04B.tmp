@@ -27,8 +27,3 @@ color = Color(0.760784, 0.760784, 0.760784, 1)
 [node name="Enemy" parent="EnemySpawner" instance=ExtResource("4_o2pv5")]
 position = Vector2(69, 50)
 scale = Vector2(0.983823, 0.994796)
-
-[node name="SpawnTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

@@ -1,4 +1,5 @@
 extends Node2D
+class_name Enemy
 
 @onready var health = $Health
 @onready var hitbox = $Hitbox
@@ -7,10 +8,13 @@ extends Node2D
 @onready var flashLengthTimer = $FlashLengthTimer
 
 @export var speed: int = 25
+@export var itemDropChance: int = 5
 var flashing: bool = false
 var flashActive: bool = false
 
 var direction: Vector2 = Vector2.ZERO
+
+signal spawnItemSignal(deathPosition: Vector2)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,6 +28,8 @@ func _process(delta):
 	position += direction.normalized() * delta * speed
 
 func die():
+	if randi() % itemDropChance == 1:
+		spawnItemSignal.emit(global_position)
 	queue_free()
 
 func hit(attack: Attack):
@@ -44,14 +50,20 @@ func toggleHitFlash():
 
 
 func _on_flash_timer_timeout():
-	print("flash timer timeout")
 	if flashing:
 		toggleHitFlash()
 
 
 func _on_flash_length_timer_timeout():
-	print("flash length timeout")
 	flashing = false
 	flashTimer.stop()
 	if flashActive:
 		toggleHitFlash()
+
+
+
+func _on_hitbox_area_entered(area):
+	if area is Enemy:
+		var newDirection = (direction + area.direction).normalized()
+		direction = newDirection
+		area.direction = newDirection

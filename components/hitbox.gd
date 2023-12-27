@@ -15,3 +15,4 @@ func _process(delta):
 func hit(attack: Attack):
 	HitSignal.emit(attack)
 	print("hitbox hit by attack")
+

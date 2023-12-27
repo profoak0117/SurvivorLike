@@ -52,7 +52,7 @@ animations = [{
 radius = 7.0
 height = 14.0
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy" type="Node2D" groups=["Enemy"]]
 script = ExtResource("1_4evl0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -67,6 +67,8 @@ MAX_HEALTH = 3
 [node name="Attack" parent="." instance=ExtResource("3_03npj")]
 
 [node name="Hitbox" parent="." instance=ExtResource("4_p8lk1")]
+collision_layer = 2
+collision_mask = 25
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_xjfgb")
@@ -78,5 +80,6 @@ wait_time = 0.05
 wait_time = 0.25
 one_shot = true
 
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_flash_timer_timeout"]
 [connection signal="timeout" from="FlashLengthTimer" to="." method="_on_flash_length_timer_timeout"]

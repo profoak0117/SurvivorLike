@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://bvkq37u2jcfxk"]
+
+[ext_resource type="Texture2D" uid="uid://bfwwad1y20cpy" path="res://sprites/objects/item_01.png" id="1_b4wgm"]
+[ext_resource type="Script" path="res://scenes/item.gd" id="1_utp0g"]
+[ext_resource type="Texture2D" uid="uid://chf1imle63ve7" path="res://sprites/objects/light_01.png" id="2_75y0c"]
+[ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="3_5s66n"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nxwra"]
+radius = 2.0
+height = 10.0
+
+[sub_resource type="Animation" id="Animation_qwyff"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 0.554, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eva63"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u1m6i"]
+_data = {
+"RESET": SubResource("Animation_eva63"),
+"idle": SubResource("Animation_qwyff")
+}
+
+[node name="Item" type="Node2D"]
+script = ExtResource("1_utp0g")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_b4wgm")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(0.6875, 0.6875)
+color = Color(0.545098, 1, 0.490196, 1)
+energy = 0.1
+texture = ExtResource("2_75y0c")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_5s66n")]
+scale = Vector2(1.00382, 1)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CapsuleShape2D_nxwra")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_u1m6i")
+}
+speed_scale = 0.5
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

@@ -37,6 +37,9 @@ autostart = true
 [node name="Attack" parent="." instance=ExtResource("3_5ljnk")]
 
 [node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(1, 0.993352)
+collision_layer = 16
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_xwadw")

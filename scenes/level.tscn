@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://di3e157si0aml" path="res://scenes/enemy.tscn" id="4_o2pv5"]
 
 [node name="Level" type="Node2D"]
-scale = Vector2(0.983823, 0.994796)
 script = ExtResource("1_yu4ri")
 
 [node name="TileMap" type="TileMap" parent="."]

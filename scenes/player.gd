@@ -4,12 +4,15 @@ extends CharacterBody2D
 @onready var animatedSprite = $AnimatedSprite2D
 var bullet = preload("res://scenes/bullet.tscn")
 var previousDirection : Vector2 = Vector2.ZERO
+var previousX: int = 1
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * speed
 	if input_direction != Vector2.ZERO:
 		previousDirection = input_direction
+		if previousDirection.x != 0:
+			previousX = previousDirection.x
 	
 func set_animation():
 	var animationName : String = "idle"
@@ -43,6 +46,6 @@ func _process(delta):
 
 func _on_attack_timer_timeout():
 	var bulletInstance = bullet.instantiate()
-	if previousDirection.x != 0:
-		bulletInstance.direction = Vector2(previousDirection.x, 0)
-	add_child(bulletInstance)
+	bulletInstance.position = position
+	bulletInstance.direction = Vector2(previousX, 0).normalized()
+	add_sibling(bulletInstance)

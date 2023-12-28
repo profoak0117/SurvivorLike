@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3 uid="uid://njav1lamsku5"]
+
+[ext_resource type="PackedScene" uid="uid://dg4kl00fq0vqa" path="res://scenes/enemy_base.tscn" id="1_f3emi"]
+[ext_resource type="Shader" path="res://scenes/hitflash.gdshader" id="2_5xbp2"]
+[ext_resource type="Script" path="res://scenes/slime.gd" id="2_ctuqv"]
+[ext_resource type="Texture2D" uid="uid://dcpbk3aw63wwd" path="res://sprites/characters/slime.png" id="3_qq4n6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h3ilg"]
+radius = 7.0
+height = 14.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ygocj"]
+resource_local_to_scene = true
+shader = ExtResource("2_5xbp2")
+shader_parameter/active = false
+
+[sub_resource type="Animation" id="Animation_eo6mk"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 2, 1, 3]
+}
+
+[sub_resource type="Animation" id="Animation_lsqnt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wwbib"]
+_data = {
+"RESET": SubResource("Animation_lsqnt"),
+"idle": SubResource("Animation_eo6mk")
+}
+
+[node name="Slime" instance=ExtResource("1_f3emi")]
+collision_layer = 2
+collision_mask = 10
+script = ExtResource("2_ctuqv")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("CapsuleShape2D_h3ilg")
+
+[node name="Sprite2D" parent="." index="1"]
+material = SubResource("ShaderMaterial_ygocj")
+position = Vector2(0, -2)
+texture = ExtResource("3_qq4n6")
+hframes = 7
+vframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
+visible = false
+shape = SubResource("CapsuleShape2D_h3ilg")
+
+[node name="AnimationPlayer" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_wwbib")
+}

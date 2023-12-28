@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://dg4kl00fq0vqa"]
+
+[ext_resource type="Script" path="res://scenes/enemy_base.gd" id="1_6t73s"]
+[ext_resource type="PackedScene" uid="uid://b2bbqsupkofay" path="res://components/health.tscn" id="1_ii7d0"]
+[ext_resource type="Material" uid="uid://cch67thbogo84" path="res://scenes/hitflash_white.tres" id="2_4cj4c"]
+[ext_resource type="PackedScene" uid="uid://b0b4gbccvg402" path="res://components/attack.tscn" id="2_x2bfb"]
+[ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="3_s7s2v"]
+
+[node name="EnemyBase" type="CharacterBody2D"]
+script = ExtResource("1_6t73s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = ExtResource("2_4cj4c")
+
+[node name="Health" parent="." instance=ExtResource("1_ii7d0")]
+MAX_HEALTH = 2
+
+[node name="Attack" parent="." instance=ExtResource("2_x2bfb")]
+
+[node name="Hitbox" parent="." instance=ExtResource("3_s7s2v")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="FlashLengthTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[connection signal="timeout" from="FlashTimer" to="." method="_on_flash_timer_timeout"]
+[connection signal="timeout" from="FlashLengthTimer" to="." method="_on_flash_length_timer_timeout"]

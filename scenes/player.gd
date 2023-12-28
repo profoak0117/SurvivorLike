@@ -37,15 +37,19 @@ func set_animation():
 	animatedSprite.animation = animationName
 	animatedSprite.flip_h = flipAnimation
 	animatedSprite.play()
-	
+
 func _process(delta):
 	get_input()
 	set_animation()
 	move_and_slide()
+	Globals.PlayerPosition = global_position
 
 
 func _on_attack_timer_timeout():
 	var bulletInstance = bullet.instantiate()
-	bulletInstance.position = position
-	bulletInstance.direction = Vector2(previousX, 0).normalized()
 	add_sibling(bulletInstance)
+	bulletInstance.global_position = global_position
+	if previousX != 0:
+		bulletInstance.setBulletDirection(Vector2(previousX, 0).normalized())
+	else:
+		bulletInstance.setBulletDirection(Vector2(1, 0).normalized())

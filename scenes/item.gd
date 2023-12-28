@@ -14,5 +14,5 @@ func _process(delta):
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("Player"):
-		#queue_free()
-		print("item collision")
+		Globals.incrementXP(1)
+		queue_free()

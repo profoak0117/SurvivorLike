@@ -3,6 +3,7 @@ class_name Attack
 
 @export var damage: int = 1
 @export var knockback: int = 25
+@export var knockbackDirection: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

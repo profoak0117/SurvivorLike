@@ -1,17 +1,19 @@
-extends Node2D
-class_name Enemy
+extends CharacterBody2D
 
-@onready var health = $Collider/Health
-@onready var hitbox = $Collider/Hitbox
-@onready var sprite = $Collider/AnimatedSprite2D
-@onready var flashTimer = $Collider/FlashTimer
-@onready var flashLengthTimer = $Collider/FlashLengthTimer
-@onready var collider = $Collider
+class_name EnemyBase
+
+@onready var health = $Health
+@onready var hitbox = $Hitbox
+@onready var sprite = $Sprite2D
+@onready var animationPlayer = $AnimationPlayer
+@onready var flashTimer = $FlashTimer
+@onready var flashLengthTimer = $FlashLengthTimer
 
 @export var speed: int = 25
 @export var itemDropChance: int = 5
 var flashing: bool = false
 var flashActive: bool = false
+var isKnockedBack: bool = false
 
 var direction: Vector2 = Vector2.ZERO
 
@@ -19,17 +21,8 @@ signal spawnItemSignal(deathPosition: Vector2)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	sprite.play()
 	hitbox.HitSignal.connect(hit)
 	health.HealthDepletedSignal.connect(die)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	#position += direction.normalized() * delta * speed
-	collider.velocity = direction.normalized() * speed
-	collider.move_and_slide()
-	
 
 func die():
 	if randi() % itemDropChance == 1:
@@ -39,15 +32,20 @@ func die():
 func hit(attack: Attack):
 	health.hit(attack)
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "position", position + (direction.normalized() * -1 * attack.knockback), 0.05)
+	isKnockedBack = true
+	tween.tween_property(self, "position", position + (attack.knockbackDirection * attack.knockback), 0.05)
+	tween.connect("finished", knockbackDone)
 	flashing = true
 	toggleHitFlash()
 	flashTimer.stop()
 	flashTimer.start()
 	flashLengthTimer.stop()
 	flashLengthTimer.start()
-		
 	
+func knockbackDone():
+	print("knockback done")
+	isKnockedBack = false
+
 func toggleHitFlash():
 	flashActive = !flashActive
 	sprite.material.set_shader_parameter("active", flashActive)
@@ -63,5 +61,6 @@ func _on_flash_length_timer_timeout():
 	flashTimer.stop()
 	if flashActive:
 		toggleHitFlash()
+
 
 

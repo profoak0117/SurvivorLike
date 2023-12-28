@@ -2,7 +2,8 @@ extends Node2D
 
 @onready var enemySpawner = $EnemySpawner
 @onready var player = $Player
-@onready var enemy = preload("res://scenes/enemy.tscn")
+@onready var itemSpawner = $ItemSpawner
+@onready var enemy = preload("res://scenes/slime.tscn")
 @onready var item = preload("res://scenes/item.tscn")
 var MIN_RANGE: int = 200
 var MAX_RANGE: int = 400
@@ -14,8 +15,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	for enemyChild in enemySpawner.get_children():
-		enemyChild.direction = $Player.position - enemyChild.position
+	pass
 
 func spawnEnemy():
 	var spawnRange: int = 20
@@ -24,8 +24,8 @@ func spawnEnemy():
 	enemyPos = enemyPos.normalized()
 	enemyPos *= enemyDistance
 	var enemyInstance = enemy.instantiate()
+	enemyInstance.global_position = player.position + enemyPos
 	enemySpawner.add_child(enemyInstance)
-	enemyInstance.global_position = $Player.position + enemyPos
 	enemyInstance.spawnItemSignal.connect(spawnItem)
 	enemyInstance.itemDropChance = 2
 
@@ -36,6 +36,4 @@ func _on_spawn_timer_timeout():
 func spawnItem(itemPosition: Vector2):
 	var itemInstance = item.instantiate()
 	itemInstance.global_position = itemPosition
-	add_child(itemInstance)
-	print("spawning item at: ")
-	print(itemPosition)
+	itemSpawner.add_child(itemInstance)

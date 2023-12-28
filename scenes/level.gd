@@ -5,12 +5,16 @@ extends Node2D
 @onready var itemSpawner = $ItemSpawner
 @onready var enemy = preload("res://scenes/slime.tscn")
 @onready var item = preload("res://scenes/item.tscn")
+@onready var levelUpGui = $LevelUpGui
+
 var MIN_RANGE: int = 200
 var MAX_RANGE: int = 400
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Globals.PlayerLeveledUpSignal.connect(handlePlayerLeveledUp)
+	levelUpGui.hide()
+	levelUpGui.optionSelectedSignal.connect(handleLevelUpOptionSelected)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,3 +44,11 @@ func spawnItem(itemPosition: Vector2):
 
 func handlePlayerLeveledUp():
 	get_tree().paused = true
+	levelUpGui.show()
+	levelUpGui.button1.text = "Option 1: text here"
+	levelUpGui.button2.text = "Option 2: text here"
+	levelUpGui.button3.text = "Option 3: text here"
+
+func handleLevelUpOptionSelected(index: int):
+	get_tree().paused = false
+	levelUpGui.hide()

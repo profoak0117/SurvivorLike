@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcatajcvv2n8d"]
+
+[ext_resource type="Script" path="res://scenes/level_up_gui.gd" id="1_0kkra"]
+
+[node name="LevelUpGui" type="CanvasLayer"]
+script = ExtResource("1_0kkra")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.05
+anchor_right = 0.95
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Level up!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2

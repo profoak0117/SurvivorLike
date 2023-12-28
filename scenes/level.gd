@@ -10,7 +10,7 @@ var MAX_RANGE: int = 400
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	Globals.PlayerLeveledUpSignal.connect(handlePlayerLeveledUp)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,3 +37,6 @@ func spawnItem(itemPosition: Vector2):
 	var itemInstance = item.instantiate()
 	itemInstance.global_position = itemPosition
 	itemSpawner.add_child(itemInstance)
+
+func handlePlayerLeveledUp():
+	get_tree().paused = true

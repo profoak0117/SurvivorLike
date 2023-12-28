@@ -12,5 +12,5 @@ func incrementXP(xp: int):
 	if PlayerXP >= XpNeededToLevelUp:
 		PlayerLevel += 1
 		PlayerLeveledUpSignal.emit()
-		XpNeededToLevelUp += PlayerLevel * 10 * 1.25
+		XpNeededToLevelUp += PlayerLevel * 10 * 1.1
 		print("Leveled up to level: " + str(PlayerLevel))

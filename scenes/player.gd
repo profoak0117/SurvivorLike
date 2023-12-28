@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var speed : int = 500
 @onready var animatedSprite = $AnimatedSprite2D
 var bullet = preload("res://scenes/bullet.tscn")
+var sideSwipe = preload("res://scenes/side_swipe.tscn")
 var previousDirection : Vector2 = Vector2.ZERO
 var previousX: int = 1
 
@@ -46,10 +47,13 @@ func _process(delta):
 
 
 func _on_attack_timer_timeout():
-	var bulletInstance = bullet.instantiate()
-	add_sibling(bulletInstance)
-	bulletInstance.global_position = global_position
-	if previousX != 0:
-		bulletInstance.setBulletDirection(Vector2(previousX, 0).normalized())
-	else:
-		bulletInstance.setBulletDirection(Vector2(1, 0).normalized())
+	var sideSwipeInstance =  sideSwipe.instantiate()
+	#var bulletInstance = bullet.instantiate()
+	#add_sibling(bulletInstance)
+	add_child(sideSwipeInstance)
+	#bulletInstance.global_position = global_position
+	sideSwipeInstance.global_position = global_position
+	#if previousX != 0:
+		#bulletInstance.setBulletDirection(Vector2(previousX, 0).normalized())
+	#else:
+		#bulletInstance.setBulletDirection(Vector2(1, 0).normalized())

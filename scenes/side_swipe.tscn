@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=3 uid="uid://jdhbhksbswrw"]
+
+[ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="1_7m8g4"]
+[ext_resource type="Script" path="res://scenes/side_swipe.gd" id="1_eavq1"]
+[ext_resource type="PackedScene" uid="uid://b0b4gbccvg402" path="res://components/attack.tscn" id="2_5xvfo"]
+[ext_resource type="Texture2D" uid="uid://cp3gqbeflxlk6" path="res://sprites/particles/side_swipe_01.png" id="3_tfnom"]
+
+[sub_resource type="Animation" id="Animation_oniv6"]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitbox/CollisionPolygon2D:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(0, -6, 7, -8, 12, -8, 17, -5, 18, -1, 18, 2, 12, 7, 7, 8, 1, 7, -1, 4, 4, 4, 8, 4, 12, 0, 9, -4, 1, -4), PackedVector2Array(14, -8, 23, -8, 31, -6, 32, -4, 32, 3, 30, 5, 25, 8, 7, 8, 0, 6, 2, 4, 9, 5, 21, 3, 26, 0, 24, -4, 14, -5, 0, -2, 0, -6, 5, -8), PackedVector2Array(0, -5, 4, -8, 25, -8, 30, -3, 30, 5, 26, 8, 5, 8, 0, 6, 0, 3, 0, 3, 6, 4, 17, 4, 22, 1, 22, -2, 17, -4, 8, -4, 4, -3, 0, -3), PackedVector2Array(0, -5, 4, -8, 25, -8, 30, -3, 30, 4, 26, 8, 5, 8, -1, 4, 6, 4, 8, 5, 17, 4, 22, 2, 23, -1, 18, -4, 9, -4, 4, -3, -1, -3), PackedVector2Array(3, -4, 7, -6, 17, -8, 29, -7, 30, 0, 26, 6, 18, 9, 6, 8, 1, 3, 5, 4, 6, 6, 12, 6, 15, 5, 20, 5, 25, 3, 27, 0, 26, -4, 22, -6, 16, -5, 9, -4, 4, -2, 2, -4)]
+}
+
+[sub_resource type="Animation" id="Animation_qn556"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hitbox/CollisionPolygon2D:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedVector2Array(14, -8, 23, -8, 31, -6, 32, -4, 32, 3, 30, 5, 25, 8, 7, 8, 0, 6, 2, 4, 9, 5, 21, 3, 26, 0, 24, -4, 14, -5, 0, -2, 0, -6, 5, -8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ty2wh"]
+_data = {
+"RESET": SubResource("Animation_qn556"),
+"attack": SubResource("Animation_oniv6")
+}
+
+[node name="SideSwipe" type="Node2D"]
+script = ExtResource("1_eavq1")
+
+[node name="Hitbox" parent="." instance=ExtResource("1_7m8g4")]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+polygon = PackedVector2Array(14, -8, 23, -8, 31, -6, 32, -4, 32, 3, 30, 5, 25, 8, 7, 8, 0, 6, 2, 4, 9, 5, 21, 3, 26, 0, 24, -4, 14, -5, 0, -2, 0, -6, 5, -8)
+
+[node name="Attack" parent="." instance=ExtResource("2_5xvfo")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(16, 0)
+texture = ExtResource("3_tfnom")
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ty2wh")
+}
+speed_scale = 3.0
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

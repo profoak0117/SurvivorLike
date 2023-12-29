@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://diti46gqdvk1w"]
+[gd_scene load_steps=8 format=3 uid="uid://diti46gqdvk1w"]
 
 [ext_resource type="Texture2D" uid="uid://cua2f58rqp3ln" path="res://sprites/objects/bullet_01.png" id="1_6sdho"]
 [ext_resource type="Script" path="res://scenes/bullet.gd" id="1_slt65"]
 [ext_resource type="PackedScene" uid="uid://b0b4gbccvg402" path="res://components/attack.tscn" id="3_5ljnk"]
+[ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="4_icsdd"]
 
 [sub_resource type="Gradient" id="Gradient_fphxp"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -36,13 +37,13 @@ autostart = true
 
 [node name="Attack" parent="." instance=ExtResource("3_5ljnk")]
 
-[node name="Area2D" type="Area2D" parent="."]
-scale = Vector2(1, 0.993352)
+[node name="Hitbox" parent="." instance=ExtResource("4_icsdd")]
 collision_layer = 16
-collision_mask = 3
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+scale = Vector2(1, 0.993352)
 shape = SubResource("CircleShape2D_xwadw")
 
 [connection signal="timeout" from="KillTimer" to="." method="_on_kill_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

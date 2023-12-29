@@ -4,7 +4,6 @@ var PlayerPosition: Vector2 = Vector2.ZERO
 var PlayerLevel: int = 1
 var PlayerXP: int = 0
 var XpNeededToLevelUp: int = 5
-
 signal PlayerLeveledUpSignal
 
 func incrementXP(xp: int):

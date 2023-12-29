@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c06rx6exlp4gs"]
+
+[ext_resource type="Script" path="res://scenes/attack_base.gd" id="1_1qtop"]
+[ext_resource type="PackedScene" uid="uid://b0b4gbccvg402" path="res://components/attack.tscn" id="1_psut4"]
+[ext_resource type="PackedScene" uid="uid://b2wsdhsoe7k5s" path="res://components/hitbox.tscn" id="2_544m1"]
+
+[node name="AttackBase" type="Node2D"]
+script = ExtResource("1_1qtop")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Attack" parent="." instance=ExtResource("1_psut4")]
+
+[node name="Hitbox" parent="." instance=ExtResource("2_544m1")]
+collision_layer = 16
+collision_mask = 2
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

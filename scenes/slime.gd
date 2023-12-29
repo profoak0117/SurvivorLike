@@ -2,10 +2,12 @@ extends EnemyBase
 
 var hasCollidedWithPlayer: bool = false
 
+func _init():
+	speed = 25
+
 func _ready():
 	super()
 	animationPlayer.play("idle")
-	speed = 25
 
 func _process(delta):
 	if !hasCollidedWithPlayer and !isKnockedBack:

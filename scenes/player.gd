@@ -2,10 +2,15 @@ extends CharacterBody2D
 
 @export var speed : int = 500
 @onready var animatedSprite = $AnimatedSprite2D
-var bullet = preload("res://scenes/bullet.tscn")
-var sideSwipe = preload("res://scenes/side_swipe.tscn")
+enum AttackType {BULLET, SIDE_SWIPE}
+
+var attackList: Array[AttackType] = []
 var previousDirection : Vector2 = Vector2.ZERO
-var previousX: int = 1
+var previousX: float = 1
+var attackPaths = {
+	AttackType.BULLET : "res://scenes/bullet.tscn",
+	AttackType.SIDE_SWIPE : "res://scenes/side_swipe.tscn"
+}
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -39,6 +44,10 @@ func set_animation():
 	animatedSprite.flip_h = flipAnimation
 	animatedSprite.play()
 
+func _ready():
+	attackList.append(AttackType.SIDE_SWIPE)
+	attackList.append(AttackType.BULLET)
+
 func _process(delta):
 	get_input()
 	set_animation()
@@ -47,13 +56,15 @@ func _process(delta):
 
 
 func _on_attack_timer_timeout():
-	var sideSwipeInstance =  sideSwipe.instantiate()
-	#var bulletInstance = bullet.instantiate()
-	#add_sibling(bulletInstance)
-	add_child(sideSwipeInstance)
-	#bulletInstance.global_position = global_position
-	sideSwipeInstance.global_position = global_position
-	#if previousX != 0:
-		#bulletInstance.setBulletDirection(Vector2(previousX, 0).normalized())
-	#else:
-		#bulletInstance.setBulletDirection(Vector2(1, 0).normalized())
+	for attack in attackList:
+		var attackInstance = load(attackPaths[attack]).instantiate()
+		if attackInstance.followPlayer:
+			add_child(attackInstance)
+		else:
+			attackInstance.global_position = global_position
+			add_sibling(attackInstance)
+			
+		if previousX != 0:
+			attackInstance.setAttackDirection(Vector2(previousX, 0).normalized())
+		else:
+			attackInstance.setAttackDirection(Vector2(1, 0).normalized())

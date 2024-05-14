@@ -1,15 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://e4eq54a06g8n"]
+[gd_scene load_steps=4 format=3 uid="uid://e4eq54a06g8n"]
 
 [ext_resource type="SpriteFrames" uid="uid://dka3j35xxe6l0" path="res://scenes/player_sprite_frames.tres" id="1_7qrvm"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_irgai"]
-[ext_resource type="PackedScene" uid="uid://b2bbqsupkofay" path="res://components/health.tscn" id="3_ffxk2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hl44x"]
 radius = 7.0
 height = 22.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
-collision_mask = 31
+z_index = 1
+collision_mask = 29
 platform_on_leave = 2
 platform_floor_layers = 4294901760
 script = ExtResource("1_irgai")
@@ -25,8 +25,6 @@ frame_progress = 0.444506
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
-
-[node name="Health" parent="." instance=ExtResource("3_ffxk2")]
 
 [node name="AttackTimer" type="Timer" parent="."]
 autostart = true

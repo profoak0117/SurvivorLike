@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtdxc527ailr4"]
+
+[ext_resource type="Texture2D" uid="uid://cmlcjm7adrmgf" path="res://sprites/ui/TextureProgressBarUnder1.png" id="1_61v37"]
+[ext_resource type="Script" path="res://scenes/MainUi.gd" id="1_fwpl4"]
+[ext_resource type="Texture2D" uid="uid://dfmyxud6nfmwx" path="res://sprites/ui/TextureProgressBarOver1.png" id="2_ssnsf"]
+[ext_resource type="Script" path="res://scenes/XpBar.gd" id="4_q06kq"]
+
+[node name="MainUi" type="CanvasLayer"]
+script = ExtResource("1_fwpl4")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+offset_right = 346.0
+offset_bottom = 75.0
+size_flags_horizontal = 0
+size_flags_vertical = 2
+columns = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Xp:
+"
+
+[node name="XpBar" type="TextureProgressBar" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_top = 2
+stretch_margin_right = 2
+stretch_margin_bottom = 2
+texture_under = ExtResource("1_61v37")
+texture_over = ExtResource("2_ssnsf")
+texture_progress = ExtResource("1_61v37")
+tint_under = Color(0, 0.25098, 0.337255, 1)
+tint_over = Color(0.0705882, 0.054902, 0.196078, 1)
+tint_progress = Color(0.443137, 0.905882, 0.137255, 1)
+script = ExtResource("4_q06kq")

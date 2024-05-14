@@ -66,6 +66,9 @@ texture = ExtResource("3_qq4n6")
 hframes = 7
 vframes = 5
 
+[node name="Health" parent="." index="2"]
+MAX_HEALTH = 10
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
 visible = false
 shape = SubResource("CapsuleShape2D_h3ilg")

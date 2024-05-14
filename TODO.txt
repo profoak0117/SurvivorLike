@@ -10,3 +10,4 @@ TODO:
 	1. Harder slime type (more health, different color, hits harder)
 	2. Archer skeletons (projectile enemy type)
 	3. First major boss enemy (will need a lot of work, maybe boss slime, need boss hp bar)
+* Figure out a better way to have a TODO list. (some sort of open source Jira type thing?)

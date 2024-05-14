@@ -1,0 +1,12 @@
+TODO:
+* Implement player damage when colliding with enemy hitbox. We want to take damage once per second if the player
+  is colliding with an enemy hitbox. Flash and then the player is invincible for 1 second.
+* Also add a dodge roll with I-frames
+* Add more upgrades:
+	1. Magic missile type attack that circles the user but gradually increases radius
+	2. Shield upgrade that blocks one attack
+	3. Flying sword that orbits the player
+* Add more enemies:
+	1. Harder slime type (more health, different color, hits harder)
+	2. Archer skeletons (projectile enemy type)
+	3. First major boss enemy (will need a lot of work, maybe boss slime, need boss hp bar)
